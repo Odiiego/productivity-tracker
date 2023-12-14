@@ -3,17 +3,23 @@ import './App.css';
 
 function App() {
   const [activities, setActivities] = React.useState([]);
+  const token = localStorage.getItem('token');
 
   React.useEffect(() => {
     const fetchData = async () => {
       const result = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/activities`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
       const data = await result.json();
       setActivities(data);
     };
     fetchData();
-  }, []);
+  }, [token]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -27,6 +33,7 @@ function App() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(newActivity),
     });
