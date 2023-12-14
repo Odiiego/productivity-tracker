@@ -1,4 +1,5 @@
 const express = require('express');
+const auth = require('../middleware/auth');
 
 const {
   getActivities,
@@ -7,8 +8,7 @@ const {
 
 const router = express.Router();
 
-router.get('/activities', getActivities);
-
-router.post('/activity', addActivity);
+router.get('/activities', auth, getActivities);
+auth, router.post('/activity', auth, addActivity);
 
 module.exports = router;
